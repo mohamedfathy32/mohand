@@ -2,17 +2,24 @@ import { useState } from "react";
 import { useNightMode } from "./NightModeContext.jsx"; // استيراد السياق
 
 export default function AverageCalculatorDaynamic() {
-  const [numbers, setNumbers] = useState([]);
-  const [numCount, setNumCount] = useState(5); // Default to 5 numbers
+  const [numbers, setNumbers] = useState([]); // حالة الأرقام المدخلة
+  const [numCount, setNumCount] = useState(); // Default to 5 numbers
   const [average, setAverage] = useState(null);
   const [error, setError] = useState("");
-  
+
   const { isNightMode } = useNightMode(); // استخدام السياق هنا
 
   const handleInputChange = (index, value) => {
     const newNumbers = [...numbers];
-    newNumbers[index] = value;
-    setNumbers(newNumbers);
+
+    // إذا كانت القيمة فارغة، لا نفعل أي شيء لأنه سيتم مسح الرقم وتحديثه مباشرة
+    if (value !== "") {
+      newNumbers[index] = value; // تحديث الرقم عند تغييره
+    } else {
+      newNumbers[index] = ""; // إذا تم مسح الرقم، نتركه فارغًا
+    }
+
+    setNumbers(newNumbers); // تحديث حالة الأرقام
   };
 
   const handleNumCountChange = (value) => {
@@ -24,18 +31,21 @@ export default function AverageCalculatorDaynamic() {
   };
 
   const calculateAverage = () => {
+    // فلترة الأرقام الصالحة (غير الفارغة والصالحة للأرقام)
     const validNumbers = numbers.map((num) => parseFloat(num)).filter((num) => !isNaN(num));
 
+    // التحقق من أن عدد الأرقام المدخلة صحيح
     if (validNumbers.length !== numCount) {
       setError(`انا اسف يحبيب اخوك بس لازم تدخل ${numCount} رقم`);
       setAverage(null);
       return;
     }
 
+    // حساب المتوسط
     const sum = validNumbers.reduce((acc, curr) => acc + curr, 0);
     setAverage(sum / validNumbers.length);
     setError("");
-    setNumbers(Array(numCount).fill(""));
+    setNumbers(Array(numCount).fill("")); // إعادة تعيين الأرقام بعد الحساب
   };
 
   return (

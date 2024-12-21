@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNightMode } from "./NightModeContext.jsx"; // استيراد السياق
+import { useNightMode } from "./NightModeContext.jsx"; 
 
 function AverageCalculator() {
   const [numbers, setNumbers] = useState(["", "", "", "", ""]);
   const [average, setAverage] = useState(null);
   const [error, setError] = useState("");
   
-  const { isNightMode, toggleNightMode } = useNightMode(); // استخدام السياق هنا
+  const { isNightMode, toggleNightMode } = useNightMode(); 
 
   const handleInputChange = (index, value) => {
     const newNumbers = [...numbers];
