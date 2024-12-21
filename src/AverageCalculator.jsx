@@ -26,6 +26,7 @@ function AverageCalculator() {
     const sum = validNumbers.reduce((acc, curr) => acc + curr, 0);
     setAverage(sum / validNumbers.length);
     setError("");
+    setNumbers(["", "", "", "", ""])
   };
 
   return (
