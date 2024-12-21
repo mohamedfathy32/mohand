@@ -3,7 +3,7 @@ import { useNightMode } from "./NightModeContext.jsx"; // استيراد الس�
 
 export default function AverageCalculatorDaynamic() {
   const [numbers, setNumbers] = useState([]); // حالة الأرقام المدخلة
-  const [numCount, setNumCount] = useState(); // Default to 5 numbers
+  const [numCount, setNumCount] = useState(""); // Default to empty string for the input
   const [average, setAverage] = useState(null);
   const [error, setError] = useState("");
 
@@ -23,10 +23,15 @@ export default function AverageCalculatorDaynamic() {
   };
 
   const handleNumCountChange = (value) => {
+    // التحقق من أن المدخل هو رقم صالح
     const count = parseInt(value, 10);
-    if (!isNaN(count) && count > 0) {
-      setNumCount(count);
-      setNumbers(Array(count).fill("")); // Reset the numbers array
+    if (value === "" || (!isNaN(count) && count > 0)) {
+      setNumCount(value); // تعيين المدخل الجديد
+      if (value !== "") {
+        setNumbers(Array(count).fill("")); // إعادة تعيين الأرقام بناءً على عدد المدخلات
+      } else {
+        setNumbers([]); // إذا كانت القيمة فارغة، نعيد الأرقام إلى مصفوفة فارغة
+      }
     }
   };
 
@@ -35,7 +40,7 @@ export default function AverageCalculatorDaynamic() {
     const validNumbers = numbers.map((num) => parseFloat(num)).filter((num) => !isNaN(num));
 
     // التحقق من أن عدد الأرقام المدخلة صحيح
-    if (validNumbers.length !== numCount) {
+    if (validNumbers.length !== numbers.length) {
       setError(`انا اسف يحبيب اخوك بس لازم تدخل ${numCount} رقم`);
       setAverage(null);
       return;
@@ -46,6 +51,7 @@ export default function AverageCalculatorDaynamic() {
     setAverage(sum / validNumbers.length);
     setError("");
     setNumbers(Array(numCount).fill("")); // إعادة تعيين الأرقام بعد الحساب
+    setNumCount(""); // إعادة تعيين عدد الأرقام المدخلة
   };
 
   return (
