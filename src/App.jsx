@@ -1,14 +1,15 @@
-
-import './App.css'
-import AverageCalculator from './AverageCalculator'
+import React from "react";
+import { NightModeProvider } from "./NightModeContext.jsx";
+import AverageCalculator from "./AverageCalculator";
+import AverageCalculatorDaynamic from "./AverageCalculatorDaynamic";
 
 function App() {
-
   return (
-    <>
-     <AverageCalculator/>
-    </>
-  )
+    <NightModeProvider>
+      <AverageCalculator />
+      <AverageCalculatorDaynamic />
+    </NightModeProvider>
+  );
 }
 
-export default App
+export default App;

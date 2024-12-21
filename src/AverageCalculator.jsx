@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNightMode } from "./NightModeContext.jsx"; // استيراد السياق
 
 function AverageCalculator() {
   const [numbers, setNumbers] = useState(["", "", "", "", ""]);
   const [average, setAverage] = useState(null);
   const [error, setError] = useState("");
-  const [isNightMode, setIsNightMode] = useState(false);
+  
+  const { isNightMode, toggleNightMode } = useNightMode(); // استخدام السياق هنا
 
   const handleInputChange = (index, value) => {
     const newNumbers = [...numbers];
@@ -26,10 +28,6 @@ function AverageCalculator() {
     setError("");
   };
 
-  const toggleNightMode = () => {
-    setIsNightMode((prevMode) => !prevMode);
-  };
-
   return (
     <div
       style={{
@@ -43,14 +41,7 @@ function AverageCalculator() {
       }}
     >
       <div style={{ textAlign: "right", marginBottom: "20px" }}>
-        <label
-          style={{
-            display: "inline-block",
-            position: "relative",
-            width: "50px",
-            height: "25px",
-          }}
-        >
+        <label style={{ display: "inline-block", position: "relative", width: "50px", height: "25px" }}>
           <input
             type="checkbox"
             checked={isNightMode}
@@ -87,9 +78,7 @@ function AverageCalculator() {
       </div>
 
       <h1 style={{ color: isNightMode ? "#4CAF50" : "#007BFF" }}>Hello Mohand 👋</h1>
-      <p style={{ fontSize: "18px", marginBottom: "30px" }}>
-        احسب متوسط 5 أرقام 
-      </p>
+      <p style={{ fontSize: "18px", marginBottom: "30px" }}>احسب متوسط 5 أرقام</p>
       {numbers.map((num, index) => (
         <input
           key={index}
