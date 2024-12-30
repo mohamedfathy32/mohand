@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useNightMode } from './NightModeContext';
+import { useState } from "react";
+import { useNightMode } from "./NightModeContext";
 
-export default function Two100One50() {
-    const [numbers, setNumbers] = useState(["", "", ""]);
+export default function Two100Two50() {
+    const [numbers, setNumbers] = useState(["", "", "", ""]);
     const [average, setAverage] = useState(null);
     const [error, setError] = useState("");
 
@@ -17,8 +17,8 @@ export default function Two100One50() {
     const calculateAverage = () => {
         const validNumbers = numbers.map((num) => parseFloat(num)).filter((num) => !isNaN(num));
 
-        if (validNumbers.length !== 3) {
-            setError("انا اسف يحبيب اخوك بس لازم تدخل التلت ارقام");
+        if (validNumbers.length !== 4) {
+            setError(" اكتب الاربع ارقام يحبيب اخوك ");
             setAverage(null);
             return;
         }
@@ -30,8 +30,8 @@ export default function Two100One50() {
             return;
         }
 
-        if (validNumbers[1] > 100 || validNumbers[1] < 0) {
-            setError("الرقم الثاني لازم يكون من 100%");
+        if (validNumbers[1] > 50 || validNumbers[1] < 0) {
+            setError("الرقم الثاني لازم يكون من 50%");
             setAverage(null);
             return;
         }
@@ -42,16 +42,23 @@ export default function Two100One50() {
             return;
         }
 
+        if (validNumbers[3] > 100 || validNumbers[3] < 0) {
+            setError("الرقم الرابع لازم يكون من 100%");
+            setAverage(null);
+            return;
+        }
+
         const adjustedNumbers = [
             (validNumbers[0] * 100) / 50, // Normalize the first number to 100%
-            validNumbers[1],
-            validNumbers[2],
+            (validNumbers[1] * 100) / 50, // Normalize the second number to 100%
+            validNumbers[2], // Third number remains as is
+            validNumbers[3], // Fourth number remains as is
         ];
 
         const sum = adjustedNumbers.reduce((acc, curr) => acc + curr, 0);
-        setAverage(sum / 3); // Calculate the average
+        setAverage(sum / 4); // Calculate the average
         setError("");
-        setNumbers(["", "", ""]);
+        setNumbers(["", "", "", ""]);
     };
 
     return (
@@ -66,7 +73,7 @@ export default function Two100One50() {
             }}
         >
             <p style={{ fontSize: "25px", marginBottom: "30px", marginTop: "0px", paddingTop: "20px" }}>
-                ده متوسط 3 أرقام الرقم الاول من 50 والتاني والتالت من 100
+                ده متوسط 4 أرقام: الأول والتاني من 50%، والثالث والرابع من 100%
             </p>
             {numbers.map((num, index) => (
                 <input
@@ -74,7 +81,7 @@ export default function Two100One50() {
                     type="number"
                     value={num}
                     placeholder={
-                        index === 0
+                        index < 2
                             ? `الرقم ${index + 1} من 50`
                             : `الرقم ${index + 1} من 100`
                     }
