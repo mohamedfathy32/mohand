@@ -60,7 +60,6 @@ export default function AverageCalculatorDaynamic() {
         fontFamily: "Arial, sans-serif",
         backgroundColor: isNightMode ? "#121212" : "#f0f8ff",
         color: isNightMode ? "#FFF" : "#000",
-        minHeight: "100vh",
         padding: "20px",
         textAlign: "center",
         transition: "background-color 0.3s ease, color 0.3s ease",
